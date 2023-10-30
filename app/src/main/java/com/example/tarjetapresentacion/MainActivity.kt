@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -44,7 +45,7 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
-                    TarjetaVertical("Android")
+                    Pantalla()
                 }
             }
         }
@@ -55,17 +56,29 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun GreetingPreview() {
     TarjetaPresentacionTheme {
-        TarjetaVertical("Android")
+        Pantalla()
     }
 }
 
 @Composable
 fun Pantalla() {
     BoxWithConstraints {
-        if (maxWidth > 500.dp) {
-            TarjetaVertical(name = "arroz")
+        if (maxWidth < 500.dp) {
+            TarjetaVertical(
+                "\n\nSebastián \nCastaño Suárez",
+                "IES Virgen de la paloma",
+                "Estudiante \n 2ºDAM",
+                "Trabajo en git",
+                "6666666666"
+            )
         } else {
-
+            TarjetaHorizontal(
+                "Sebastián \nCastaño Suárez",
+                "IES Virgen de la paloma",
+                "Estudiante \n\n 2ºDAM",
+                "Trabajo en git",
+                "+346666666666"
+            )
         }
     }
 
@@ -73,7 +86,105 @@ fun Pantalla() {
 
 
 @Composable
-fun TarjetaVertical(name: String, modifier: Modifier = Modifier) {
+fun TarjetaVertical(
+    name: String,
+    centro: String,
+    estudiante: String,
+    git: String,
+    numero: String,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .background(Color(103, 103, 103))
+            .padding(16.dp)
+    ) {
+        Row(
+            Modifier
+                .weight(2f)
+                .fillMaxSize()
+                .background(Color(90, 161, 168))
+        ) {
+            Column(
+                Modifier
+                    .weight(1f)
+                    .padding(8.dp)
+            ) {
+                FotoPerfil()
+            }
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxSize()
+                    .padding(8.dp),
+            ) {
+
+                Text(
+                    text = name,
+                    modifier = Modifier,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    fontSize = 20.sp
+
+
+                )
+                BotonCentroVertical(centro)
+                Text(
+                    text = estudiante, modifier = Modifier
+                        .fillMaxSize()
+                        .weight(1f),
+                    fontSize = 25.sp,
+                    textAlign = TextAlign.Start,
+                    fontStyle = FontStyle.Italic
+                )
+            }
+        }
+        Column(
+            Modifier
+                .fillMaxSize()
+                .weight(1.5f)
+                .background(Color(90, 161, 168))
+                .padding(8.dp)
+        ) {
+            Row(
+                Modifier
+                    .weight(1f)
+                    .fillMaxSize()
+            ) {
+                IconoGit()
+                BotonGit(git)
+            }
+            Row(
+                Modifier
+                    .weight(1f)
+                    .fillMaxSize()
+            ) {
+                IconoCorreo()
+                BotonCorreo("sebastian.castano2@educa.madrid.org")
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(
+                Modifier
+                    .weight(1f)
+                    .fillMaxSize()
+            ) {
+                IconoNumero()
+                BotonNumero(numero)
+            }
+        }
+    }
+}
+
+@Composable
+fun TarjetaHorizontal(
+    name: String,
+    centro: String,
+    estudiante: String,
+    git: String,
+    numero: String,
+    modifier: Modifier = Modifier
+) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -90,79 +201,71 @@ fun TarjetaVertical(name: String, modifier: Modifier = Modifier) {
                 Modifier
                     .weight(1f)
                     .fillMaxSize()
-                    .padding(8.dp)
             ) {
-                FotoPerfil()
+                Column(
+                    Modifier
+                        .weight(2f)
+                        .fillMaxSize()
+                ) {
+                    FotoPerfil()
+                }
+                Row(
+                    Modifier
+                        .weight(1f)
+                        .fillMaxSize()
+                ) {
+                    IconoGit()
+                    BotonGit(git)
+                }
+                Row(
+                    Modifier
+                        .weight(1f)
+                        .fillMaxSize()
+                ) {
+                    IconoCorreo()
+                    BotonCorreo("sebastian.castano2@educa.madrid.org")
+                }
+                Row(
+                    Modifier
+                        .weight(1f)
+                        .fillMaxSize()
+                ) {
+                    IconoNumero()
+                    BotonNumero(numero)
+                }
             }
             Column(
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxSize()
+                    .background(Color(90, 161, 168))
                     .padding(8.dp),
             ) {
 
                 Text(
-                    text = "\n\nSebastián \nCastaño Suárez",
-                    modifier = Modifier,
+                    text = name,
+                    modifier = Modifier.fillMaxSize().weight(1f),
                     fontWeight = FontWeight.Bold,
-                    textAlign = TextAlign.Center,
-                    fontSize = 20.sp
-                )
-                BotonCentro("IES Virgen de la paloma")
+                    textAlign = TextAlign.Start,
+                    fontSize = 30.sp
 
-                //      Text(
-                //        text = "Ies Virgen de la Paloma\nEstudiante 2 DAM",
-                //      modifier = Modifier.weight(2f)
-                Text(
-                    text = "Estudiante \n 2ºDAM", modifier = Modifier.fillMaxSize(),
-                    textAlign = TextAlign.Left,
-                )
-            }
-        }
-        Column(
-            Modifier
-                .fillMaxSize()
-                .weight(1f)
-                .background(Color(90, 161, 168))
-                .padding(8.dp)
-        ) {
-            Row(
-                Modifier
-                    .weight(1f)
-                    .fillMaxSize()
-            ) {
-                IconoGit()
-                Text(
-                    text = "Gito", modifier = Modifier.fillMaxSize()
-                )
-            }
-            Row(
-                Modifier
-                    .weight(1f)
-                    .fillMaxSize()
-            ) {
-                IconoCorreo()
-                Text(
-                    text = "Correo@gmail.com", modifier = Modifier.fillMaxSize()
-                )
-            }
-            Spacer(modifier = Modifier.height(8.dp))
-            Row(
-                Modifier
-                    .weight(1f)
-                    .fillMaxSize()
-            ) {
-                IconoNumero()
-                BotonNumero("666666666")
-            }
 
+                )
+                BotonCentroHorizontal(centro)
+                Text(
+                    text = estudiante, modifier = Modifier
+                        .fillMaxSize()
+                        .weight(2f),
+                    fontSize = 30.sp,
+                    textAlign = TextAlign.Start, fontStyle = FontStyle.Italic
+                )
+            }
         }
     }
 }
 
-
 @Composable
-fun BotonNumero(numero: String, modifier: Modifier = Modifier) {
+fun BotonNumero(numero: String) {
     val localContext = LocalContext.current
     TextButton(onClick = {
         val textPhone = "tel: $numero"
@@ -175,7 +278,7 @@ fun BotonNumero(numero: String, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun BotonCentro(centro: String) {
+fun BotonCentroVertical(centro: String, modifier: Modifier=Modifier, ) {
     val localContext = LocalContext.current
     val url = "https://www.palomafp.org/"
     TextButton(onClick = {
@@ -185,17 +288,17 @@ fun BotonCentro(centro: String) {
         startActivity(localContext, intento, null)
     }) {
         Text(
-            text = "\n $centro",
+            text = "\n$centro",
             modifier = Modifier
                 .weight(1f),
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Left
+            fontSize = 23.sp,
+            textAlign = TextAlign.Start
+
         )
     }
 }
 @Composable
-fun BotonGit(centro: String) {
+fun BotonCentroHorizontal(centro: String,modifier: Modifier=Modifier, ) {
     val localContext = LocalContext.current
     val url = "https://www.palomafp.org/"
     TextButton(onClick = {
@@ -205,8 +308,32 @@ fun BotonGit(centro: String) {
         startActivity(localContext, intento, null)
     }) {
         Text(
-            text = "\n $centro",
+            text = "\n$centro",
             modifier = Modifier
+                .weight(1f),
+            fontSize = 30.sp,
+            textAlign = TextAlign.Start
+
+        )
+    }
+}
+
+
+
+@Composable
+fun BotonGit(git: String) {
+    val localContext = LocalContext.current
+    val url = "https://github.com/SebastianCastanoSuarez1/TarjetaPresentacion"
+    TextButton(onClick = {
+        val intento = Intent()
+        intento.data = Uri.parse(url)
+        intento.action = Intent.ACTION_VIEW
+        startActivity(localContext, intento, null)
+    }) {
+        Text(
+            text = "\n $git",
+            modifier = Modifier
+                .fillMaxSize()
                 .weight(1f),
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
@@ -216,7 +343,30 @@ fun BotonGit(centro: String) {
 }
 
 @Composable
-fun FotoPerfil(modifier: Modifier = Modifier) {
+fun BotonCorreo(mail:String) {
+    val email: String = "email.@gmail.com"
+    val localContext = LocalContext.current
+    TextButton(onClick = {
+        val intentMail = Intent(Intent.ACTION_SEND, Uri.parse(email))
+        intentMail.type = "plain/text"
+        intentMail.putExtra(Intent.EXTRA_SUBJECT, "titulo del mail")
+        intentMail.putExtra(Intent.EXTRA_EMAIL, arrayOf(mail))
+        startActivity(localContext, intentMail, null)
+    }) {
+        Text(
+            text = "\n $email",
+            modifier = Modifier
+                .fillMaxSize()
+                .weight(1f),
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Left
+        )
+    }
+}
+
+@Composable
+fun FotoPerfil() {
     val image = painterResource(R.drawable.foto_perfil)
     Image(
         painter = image,
