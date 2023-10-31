@@ -1,5 +1,6 @@
 package com.example.tarjetapresentacion
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -30,6 +31,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -77,7 +79,7 @@ fun Pantalla() {
                 "IES Virgen de la paloma",
                 "Estudiante \n\n 2ºDAM",
                 "Trabajo en git",
-                "+346666666666"
+                "6666666666"
             )
         }
     }
@@ -161,7 +163,7 @@ fun TarjetaVertical(
                     .fillMaxSize()
             ) {
                 IconoCorreo()
-                BotonCorreo("sebastian.castano2@educa.madrid.org")
+                BotonCorreo("sebastian@educa.org")
             }
             Spacer(modifier = Modifier.height(8.dp))
             Row(
@@ -223,7 +225,7 @@ fun TarjetaHorizontal(
                         .fillMaxSize()
                 ) {
                     IconoCorreo()
-                    BotonCorreo("sebastian.castano2@educa.madrid.org")
+                    BotonCorreo("sebastian@educa.org")
                 }
                 Row(
                     Modifier
@@ -244,7 +246,9 @@ fun TarjetaHorizontal(
 
                 Text(
                     text = name,
-                    modifier = Modifier.fillMaxSize().weight(1f),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .weight(1f),
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Start,
                     fontSize = 30.sp
@@ -273,12 +277,18 @@ fun BotonNumero(numero: String) {
         intento.data = Uri.parse(textPhone)
         startActivity(localContext, intento, null)
     }) {
-        Text(text = "\n $numero", modifier = Modifier.fillMaxSize(), fontSize = 20.sp)
+        Text(
+            text = "\n $numero",
+            modifier = Modifier.fillMaxSize(),
+            fontSize = 19.sp,
+            color = Color.Black,
+            textDecoration = TextDecoration.Underline
+        )
     }
 }
 
 @Composable
-fun BotonCentroVertical(centro: String, modifier: Modifier=Modifier, ) {
+fun BotonCentroVertical(centro: String) {
     val localContext = LocalContext.current
     val url = "https://www.palomafp.org/"
     TextButton(onClick = {
@@ -292,13 +302,14 @@ fun BotonCentroVertical(centro: String, modifier: Modifier=Modifier, ) {
             modifier = Modifier
                 .weight(1f),
             fontSize = 23.sp,
-            textAlign = TextAlign.Start
-
+            textAlign = TextAlign.Start,
+            color = Color.White,
+            textDecoration = TextDecoration.Underline
         )
     }
 }
 @Composable
-fun BotonCentroHorizontal(centro: String,modifier: Modifier=Modifier, ) {
+fun BotonCentroHorizontal(centro: String) {
     val localContext = LocalContext.current
     val url = "https://www.palomafp.org/"
     TextButton(onClick = {
@@ -312,12 +323,12 @@ fun BotonCentroHorizontal(centro: String,modifier: Modifier=Modifier, ) {
             modifier = Modifier
                 .weight(1f),
             fontSize = 30.sp,
-            textAlign = TextAlign.Start
-
+            textAlign = TextAlign.Start,
+            color = Color.White,
+            textDecoration = TextDecoration.Underline
         )
     }
 }
-
 
 
 @Composable
@@ -335,32 +346,36 @@ fun BotonGit(git: String) {
             modifier = Modifier
                 .fillMaxSize()
                 .weight(1f),
-            fontSize = 20.sp,
+            fontSize = 19.sp,
             fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Left
+            textAlign = TextAlign.Left,
+            color = Color.Black,
+            textDecoration = TextDecoration.Underline
         )
     }
 }
 
+@SuppressLint("IntentReset")
 @Composable
-fun BotonCorreo(mail:String) {
-    val email: String = "email.@gmail.com"
+fun BotonCorreo(mail: String) {
+    val email = "sebastian.castano2@educa.madrid.org"
     val localContext = LocalContext.current
     TextButton(onClick = {
         val intentMail = Intent(Intent.ACTION_SEND, Uri.parse(email))
         intentMail.type = "plain/text"
         intentMail.putExtra(Intent.EXTRA_SUBJECT, "titulo del mail")
-        intentMail.putExtra(Intent.EXTRA_EMAIL, arrayOf(mail))
+        intentMail.putExtra(Intent.EXTRA_EMAIL, arrayOf(email))
         startActivity(localContext, intentMail, null)
     }) {
         Text(
-            text = "\n $email",
+            text = "\n$mail",
             modifier = Modifier
-                .fillMaxSize()
-                .weight(1f),
-            fontSize = 20.sp,
+                .weight(1f).fillMaxSize(),
+            fontSize = 19.sp,
             fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Left
+            textAlign = TextAlign.Left,
+            color = Color.Black,
+            textDecoration = TextDecoration.Underline
         )
     }
 }
